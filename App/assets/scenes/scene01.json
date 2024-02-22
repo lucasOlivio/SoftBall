@@ -1,0 +1,213 @@
+[
+    {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                20.0,
+                20.0,
+                20.0
+            ]
+        }
+    },
+    {
+        "camera": {
+            "upVector": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "distance": 0.10000000149011612,
+            "height": 0.0,
+            "offsetTarget": 0.0,
+            "fovy": 0.6000000238418579,
+            "zNear": 1.0,
+            "zFar": 20000.0
+        },
+        "tag": {
+            "name": "Camera"
+        },
+        "transform": {
+            "position": [
+                1695.706298828125,
+                237.844482421875,
+                1703.243896484375
+            ],
+            "orientation": [
+                -0.9230727553367615,
+                0.010174307972192764,
+                -0.38446763157844543,
+                -0.00423401640728116
+            ],
+            "scale": 1.0
+        }
+    },
+    {
+        "tag": {
+            "name": "directionallight"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 0.0
+        },
+        "light": {
+            "distanceOffset": 0.0,
+            "atten": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "diffuse": [
+                0.5,
+                0.5,
+                0.5,
+                1.0
+            ],
+            "direction": [
+                1.0,
+                -1.0,
+                0.0,
+                1.0
+            ],
+            "directionOffset": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "positionOffset": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "params": [
+                2.0,
+                1.0,
+                1.0,
+                0.0
+            ],
+            "specular": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "status": 1
+        }
+    },
+    {
+        "tag": {
+            "name": "matskybox"
+        },
+        "texture": {
+            "fileName": "textcube",
+            "textureType": 20,
+            "vecTextures": [
+                "cubetexture/TropicalSunnyDayLeft2048.bmp",
+                "cubetexture/TropicalSunnyDayRight2048.bmp",
+                "cubetexture/TropicalSunnyDayDown2048.bmp",
+                "cubetexture/TropicalSunnyDayUp2048.bmp",
+                "cubetexture/TropicalSunnyDayFront2048.bmp",
+                "cubetexture/TropicalSunnyDayBack2048.bmp"
+            ]
+        },
+        "material": {
+            "name": "matcubetext",
+            "alphaTexture": "",
+            "colorTextures": [],
+            "colorTexturesRatios": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "cubeTexture": "textcube",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discardTexture": "",
+            "heightMapTexture": "",
+            "heightScale": 0.0,
+            "isEmissive": 0,
+            "normalTexture": "",
+            "specularTexture": "",
+            "useAlphaTexture": 0,
+            "useCubeTexture": 1,
+            "useDiscardTexture": 0,
+            "useHeightMap": 0,
+            "useNormalTexture": 0,
+            "useSpecularTexture": 0
+        }
+    },
+    {
+        "tag": {
+            "name": "skybox"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                -0.0,
+                0.0
+            ],
+            "scale": 10000.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "useColorTexture": 1,
+            "material": "matcubetext",
+            "models": [
+                "skybox.ply"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        }
+    }
+]

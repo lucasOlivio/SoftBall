@@ -1,0 +1,20 @@
+{
+    "window": {
+        "name": "test scene",
+        "height": 720,
+        "width": 1080,
+        "fovy": 0.6,
+        "zNear": 0.1,
+        "zFar": 1000.0
+    },
+    "defaultPaths": {
+        "pathAudio": "../App/assets/audios/",
+        "pathModels": "../App/assets/models/",
+        "pathScripts": "../App/assets/scripts/",
+        "pathShaders": "../App/assets/shaders/",
+        "pathTextures": "../App/assets/textures/",
+        "pathScenes": "../App/assets/scenes/",
+        "pathDebugSquare": "debug/square.obj",
+        "pathDebugSphere": "debug/sphere.obj"
+    }
+}

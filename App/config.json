@@ -1,0 +1,17 @@
+{
+    "window": {
+        "name": "test scene",
+        "height": 720,
+        "width": 1080
+    },
+    "defaultPaths": {
+        "pathAudio": "assets/audios/",
+        "pathModels": "assets/models/",
+        "pathScripts": "assets/scripts/",
+        "pathShaders": "assets/shaders/",
+        "pathTextures": "assets/textures/",
+        "pathScenes": "assets/scenes/",
+        "pathDebugSquare": "debug/square.obj",
+        "pathDebugSphere": "debug/sphere.obj"
+    }
+}
