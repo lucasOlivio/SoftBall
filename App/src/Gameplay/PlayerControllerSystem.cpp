@@ -2,7 +2,7 @@
 
 #include "PlayerControllerSystem.h"
 
-
+#include "Engine/ECS/Scene/SceneManagerLocator.h"
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 #include "Engine/ECS/Scene/SceneView.hpp"
@@ -15,9 +15,12 @@
 #include "Engine/Core/InputProperties.h"
 
 #include "Engine/Utils/InputUtils.h"
+#include "Engine/Utils/GameplayUtils.h"
 
 namespace MyEngine
 {
+    const float PLAYER_JUMP_SPEED = 20.0f;
+
 	void PlayerControllerSystem::Init()
 	{
         // Subscribe to keyboard event
@@ -34,7 +37,7 @@ namespace MyEngine
 
 	void PlayerControllerSystem::Update(Scene* pScene, float deltaTime)
 	{
-		KeyInputComponent* pKey = CoreLocator::GetKeyInput();
+        KeyInputComponent* pKey = CoreLocator::GetKeyInput();
         for (Entity playerId : SceneView<PlayerComponent, TransformComponent, MovementComponent>(*pScene))
         {
             PlayerComponent* pPlayer = pScene->Get<PlayerComponent>(playerId);
@@ -48,25 +51,32 @@ namespace MyEngine
 
             glm::vec3 newVelocity = glm::vec3(0.0f);
 
+            float verticalMovement = 0.0f;
+            float horizontalMovement = 0.0f;
+
             // Handle key presses for movement
             if (pKey->key[eKeyCodes::W])
             {
-                newVelocity = pPlayer->speed * playerFront;
+                verticalMovement += 1.0f;
             }
             if (pKey->key[eKeyCodes::S])
             {
-                newVelocity = -pPlayer->speed * playerFront;
+                verticalMovement -= 1.0f;
             }
             if (pKey->key[eKeyCodes::A])
             {
-                newVelocity = -pPlayer->speed * playerSides;
+                horizontalMovement -= 1.0f;
             }
             if (pKey->key[eKeyCodes::D])
             {
-                newVelocity = pPlayer->speed * playerSides;
+                horizontalMovement += 1.0f;
             }
 
-            pMovement->velocity = newVelocity;
+            newVelocity = verticalMovement * (playerFront * pPlayer->speed);
+            newVelocity += horizontalMovement * (playerSides * pPlayer->speed);
+
+            pMovement->velocity.x = newVelocity.x;
+            pMovement->velocity.z = newVelocity.z;
 
             // Mouse position for changing forward direction
             MouseInputComponent* pMouse = CoreLocator::GetMouseInput();
@@ -84,6 +94,10 @@ namespace MyEngine
 
             pMouse->lastPosX = pMouse->posX;
             pMouse->lastPosY = pMouse->posY;
+
+            // HACK: Keep above floor
+            if(pTransform->position.y < 1.0f)
+                pTransform->position.y = 1.0f;
         }
 	}
 
@@ -107,16 +121,42 @@ namespace MyEngine
 
     void PlayerControllerSystem::InputTriggered(const KeyboardEvent& event)
     {
-        if (event.keyData.key != eKeyCodes::ESCAPE)
+        switch (event.keyData.key)
         {
-            return;
+        case eKeyCodes::ESCAPE:
+        {
+            // Trigger window close event
+            iEventBus<eWindowEvents, WindowCloseEvent>* pEventBus = EventBusLocator<eWindowEvents, WindowCloseEvent>::Get();
+
+            WindowCloseEvent collEvent = WindowCloseEvent();
+            pEventBus->Publish(collEvent);
+            break;
         }
+        case eKeyCodes::SPACE:
+        {
+            if (event.keyData.action != eInputActions::KEY_PRESS)
+            {
+                return;
+            }
 
-        // Trigger window close event
-        iEventBus<eWindowEvents, WindowCloseEvent>* pEventBus = EventBusLocator<eWindowEvents, WindowCloseEvent>::Get();
+            // JUMP
+            iSceneManager* pSceneManager = SceneManagerLocator::Get();
+            Scene* pScene = pSceneManager->GetCurrentScene();
+            Entity playerId = GameplayUtils::GetPlayerId(pScene);
 
-        WindowCloseEvent collEvent = WindowCloseEvent();
-        pEventBus->Publish(collEvent);
+            MovementComponent* pMovement = pScene->Get<MovementComponent>(playerId);
+            TransformComponent* pTransform = pScene->Get<TransformComponent>(playerId);
+
+            if (pTransform->position.y <= 1.0f)
+            {
+                pMovement->velocity.y = PLAYER_JUMP_SPEED;
+            }
+
+            break;
+        }
+        default:
+            break;
+        }
     }
 
     void PlayerControllerSystem::m_InitiateMouseCapture()

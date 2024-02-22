@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/ECS/Scene/Scene.h"
+
 #include <glm/glm.hpp>
 #include <functional>
 
@@ -10,6 +12,8 @@ namespace MyEngine
 	class GameplayUtils
 	{
 	public:
+		static Entity GetPlayerId(Scene* pScene);
+
 		static void CalculateSteeringDirections(const glm::vec3& myPosition, const glm::vec3& targetPosition,
 												glm::quat& myOrientation, glm::vec3& myVelocity,
 												const glm::vec3& targetVelocity, bool isFleeing,

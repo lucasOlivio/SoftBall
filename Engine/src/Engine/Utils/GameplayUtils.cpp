@@ -2,11 +2,21 @@
 
 #include "GameplayUtils.h"
 
+#include "Engine/ECS/Components.h"
+#include "Engine/ECS/Scene/SceneView.hpp"
+
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/Math.h"
 
 namespace MyEngine
 {
+    Entity GameplayUtils::GetPlayerId(Scene* pScene)
+    {
+        SceneView<PlayerComponent>::Iterator it = SceneView<PlayerComponent>(*pScene).begin();
+
+        return *it;
+    }
+
 	void GameplayUtils::CalculateSteeringDirections(const glm::vec3& myPosition, const glm::vec3& targetPosition, 
                                                    glm::quat& myOrientation, glm::vec3& myVelocity, 
                                                    const glm::vec3& targetVelocity, bool isFleeing, 

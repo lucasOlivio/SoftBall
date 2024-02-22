@@ -65,8 +65,7 @@ namespace MyEngine
 			"SoftBodyResponseSystem",
 			"SotBodyConstraintsSystem",
 			// Gameplay
-			//"PlayerControllerSystem",
-			"FlyingCameraSystem"
+			"PlayerControllerSystem"
 
 			// Debug
 			,"DebugSystem",

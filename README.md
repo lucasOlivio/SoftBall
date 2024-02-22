@@ -1,8 +1,8 @@
-# Custom engine
+# Soft ball
 
 ## About
 
-My Custom engine template to start projects from more easily.
+Project for Physics 2 class. On this project we should create a 3D game to demonstrate the usage of softbodies, with a softbody main character and softbody elements on the environment.
 
 ## Requirements
 
