@@ -278,8 +278,11 @@ namespace MyEngine
 	{
 		std::string meshName;
 
+		std::vector<SoftBodyParticle*> vecWireframeParticles; // Keep the particles in their origin
 		std::vector<SoftBodyParticle*> vecParticles;
+
 		std::vector<SoftBodySpring*> vecSprings;
+		std::vector<SoftBodySpring*> vecWireframeSprings;
 
 		float defaultSpringStrength;
 		float defaultParticleMass;

@@ -24,4 +24,9 @@ namespace MyEngine
 
     // Set minimal float values to zero
     void CleanZeros(glm::vec3& value);
+
+    // Constraint update for connected particles
+    void UpdateSpringConstraint(glm::vec3& positionA, glm::vec3& positionB,
+                                const float& restLength, const float& springStregth,
+                                bool moveB = true);
 }

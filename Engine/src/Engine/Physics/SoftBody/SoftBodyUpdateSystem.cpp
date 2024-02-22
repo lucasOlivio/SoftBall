@@ -33,9 +33,7 @@ namespace MyEngine
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
             ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 
-            glm::vec3 weightedSum = glm::vec3(0.0f);
-            glm::vec3 weightedDirection = glm::vec3(0.0f);
-            float totalWeight = 0.0f;
+            // HACK: Last particles are manually made for the transform contraints, see: SotBodyConstraintsSystem on Start
             size_t vecSize = pSoftBody->vecParticles.size();
             sMesh* pMesh = nullptr;
             if (pModel)
@@ -74,29 +72,10 @@ namespace MyEngine
                 {
                     pParticle->position.y = 0.0f;
                 }
-
-                // HACK: Updating transform based on particles average position, this should not be here
-
-                // Calculate weighted sum of particle positions
-                float distanceSquared = glm::length(pParticle->position - pTransform->position);
-                float weight = 1.0f / (distanceSquared + 1.0f); // Adding 1 to avoid division by zero
-                weightedSum += pParticle->position * weight;
-                weightedDirection += glm::normalize(pParticle->position - pTransform->position) * weight;
-                totalWeight += weight;
             }
 
             if (pMesh)
             {
-                // Update transform position to weighted average position of particles
-                if (totalWeight > 0.0f) {
-                    glm::vec3 averagePosition = weightedSum / totalWeight;
-                    pTransform->position = averagePosition;
-
-                    // Calculate rotation to align with the weighted direction
-                    glm::quat rotation = glm::quatLookAt(glm::normalize(weightedDirection), glm::vec3(UP_VECTOR));
-                    pTransform->orientation = rotation;
-                }
-
                 m_UpdateModelNormals(pMesh);
                 pVAOManager->UpdateVAOBuffers(pMesh->name, pMesh);
             }

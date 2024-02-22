@@ -31,6 +31,7 @@
 #include "Engine/Physics/SoftBody/SotBodyConstraintsSystem.h"
 #include "Engine/Physics/SoftBody/SoftBodyUpdateSystem.h"
 #include "Engine/Physics/SoftBody/SoftBodyResponseSystem.h"
+#include "Engine/Physics/SoftBody/SoftBodySyncTransformSystem.h"
 
 #include "Engine/Gameplay/SteeringBehaviorSystem.h"
 #include "Engine/Gameplay/FlyingCameraSystem.h"
@@ -38,7 +39,7 @@
 #include "Engine/Debug/DebugSystem.h"
 #include "Engine/Debug/DrawGridSystem.h"
 #include "Engine/Debug/DrawCollisionSystem.h"
-#include "Engine/Debug/DrawSoftBodyPartclesSystem.h"
+#include "Engine/Debug/DrawSoftBodyParticlesSystem.h"
 
 namespace MyEngine
 {
@@ -76,6 +77,7 @@ namespace MyEngine
         {"SotBodyConstraintsSystem", []() { return new SotBodyConstraintsSystem; }},
         {"SoftBodyUpdateSystem", []() { return new SoftBodyUpdateSystem; }},
         {"SoftBodyResponseSystem", []() { return new SoftBodyResponseSystem; }},
+        {"SoftBodySyncTransformSystem", []() { return new SoftBodySyncTransformSystem; }},
         // Gameplay
         {"SteeringBehaviorSystem", []() { return new SteeringBehaviorSystem; }},
         {"FlyingCameraSystem", []() { return new FlyingCameraSystem; }},
@@ -83,7 +85,7 @@ namespace MyEngine
         {"DebugSystem", []() { return new DebugSystem; }},
         {"DrawGridSystem", []() { return new DrawGridSystem; }},
         {"DrawCollisionSystem", []() { return new DrawCollisionSystem; }},
-        {"DrawSoftBodyPartclesSystem", []() { return new DrawSoftBodyPartclesSystem; }},
+        {"DrawSoftBodyParticlesSystem", []() { return new DrawSoftBodyParticlesSystem; }},
     };
 
     void SystemBuilder::RegisterSystem(const std::string& name, SystemFactory factory)

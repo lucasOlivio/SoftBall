@@ -2,9 +2,9 @@
     {
         "gridBroadphase": {
             "lengthPerBox": [
-                20.0,
-                20.0,
-                20.0
+                5.0,
+                5.0,
+                5.0
             ]
         }
     },
@@ -22,21 +22,20 @@
             "zNear": 1.0,
             "zFar": 20000.0
         },
-      "tag": {
-        "name": "Camera"
-      },
-      "player": { "speed" : 100.0 },
+        "tag": {
+            "name": "Camera"
+        },
         "transform": {
             "position": [
-                0.0,
-                1.0,
-                0.0
+                5000.0,
+                10.0,
+                5000.0
             ],
             "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
+                0.9999969601631165,
+                0.0019999968353658915,
+                0.001499996636994183,
+                -0.0000029999978323758114
             ],
             "scale": 1.0
         },
@@ -48,7 +47,7 @@
             ],
             "acceleration": [
                 0.0,
-                -45.8,
+                -45.79999923706055,
                 0.0
             ],
             "maxSpeed": 500.0,
@@ -74,6 +73,14 @@
             "FBOIDs": [
                 0
             ]
+        },
+        "softBody": {
+            "meshName": "sphere.ply",
+            "defaultSpringStrength": 0.5,
+            "defaultParticleMass": 1.0
+        },
+        "player": {
+            "speed": 50.0
         }
     },
     {
@@ -212,9 +219,9 @@
         },
         "transform": {
             "position": [
+                5000.0,
                 0.0,
-                0.0,
-                0.0
+                5000.0
             ],
             "orientation": [
                 1.0,
@@ -312,6 +319,9 @@
         }
     },
     {
+        "tag": {
+            "name": "ground"
+        },
         "transform": {
             "position": [
                 0.0,
@@ -401,6 +411,28 @@
             "FBOIDs": [
                 0
             ]
+        }
+    },
+    {
+        "tag": {
+            "name": "Ball"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "parent": {
+            "parentId": 1
         }
     }
 ]

@@ -5,6 +5,7 @@
 
 namespace MyEngine
 {
+#define MIN_FLOAT 1.192092896e-07f
 #define MAX_LINE_LENGTH 65536		// 16x1024
 #define PI 3.14f
 

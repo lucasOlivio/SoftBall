@@ -5,13 +5,13 @@
 namespace MyEngine
 {
 	// Draw all soft body particles as spheres
-	class DrawSoftBodyPartclesSystem : public iSystem
+	class DrawSoftBodyParticlesSystem : public iSystem
 	{
 	public:
-		DrawSoftBodyPartclesSystem() = default;
-		virtual ~DrawSoftBodyPartclesSystem() { };
+		DrawSoftBodyParticlesSystem() = default;
+		virtual ~DrawSoftBodyParticlesSystem() { };
 
-		virtual std::string SystemName() { return "DrawSoftBodyPartclesSystem"; };
+		virtual std::string SystemName() { return "DrawSoftBodyParticlesSystem"; };
 
 		virtual void Init();
 

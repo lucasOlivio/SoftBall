@@ -122,19 +122,41 @@ namespace MyEngine
 
     void CleanZeros(glm::vec3& value)
     {
-        // 1.192092896e–07F 
-        const float minFloat = 1.192092896e-07f;
-        if ((value.x < minFloat) && (value.x > -minFloat))
+        if ((value.x < MIN_FLOAT) && (value.x > -MIN_FLOAT))
         {
             value.x = 0.0f;
         }
-        if ((value.y < minFloat) && (value.y > -minFloat))
+        if ((value.y < MIN_FLOAT) && (value.y > -MIN_FLOAT))
         {
             value.y = 0.0f;
         }
-        if ((value.z < minFloat) && (value.z > -minFloat))
+        if ((value.z < MIN_FLOAT) && (value.z > -MIN_FLOAT))
         {
             value.z = 0.0f;
+        }
+    }
+
+    void UpdateSpringConstraint(glm::vec3& positionA, glm::vec3& positionB,
+                                const float& restLength, const float& springStregth,
+                                bool moveB)
+    {
+        glm::vec3 delta = positionB - positionA;
+        float deltalength = glm::length(delta);
+        if (deltalength <= MIN_FLOAT)
+        {
+            return;
+        }
+
+        float diffA = (deltalength - restLength);
+        float diff = diffA / deltalength;
+
+        positionA += delta * 0.5f * diff * springStregth;
+        CleanZeros(positionA);
+
+        if (moveB)
+        {
+            positionB -= delta * 0.5f * diff * springStregth;
+            CleanZeros(positionB);
         }
     }
 }

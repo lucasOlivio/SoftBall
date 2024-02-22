@@ -64,26 +64,14 @@ namespace MyEngine
 			"SoftBodyUpdateSystem",
 			"SoftBodyResponseSystem",
 			"SotBodyConstraintsSystem",
+			"SoftBodySyncTransformSystem",
 			// Gameplay
 			"PlayerControllerSystem"
-
-			// Debug
-			,"DebugSystem",
-			"DrawGridSystem",
-			"DrawCollisionSystem",
-			"DrawSoftBodyPartclesSystem"
-
 		};
 
 		pStates->mapStateSystems[eGameStates::STOPPED] = {
 			// Physics
 			"GridBroadPhaseSystem"
-			#ifdef DEBUG
-			// Debug
-			,"DebugSystem",
-			"DrawGridSystem",
-			"DrawCollisionSystem"
-			#endif
 		};
 
 		pStates->mapStateSystems[eGameStates::GAMEOVER] = {};

@@ -22,12 +22,20 @@ namespace MyEngine
 		{
 			position = glm::vec3(0.0f);
 			oldPosition = glm::vec3(0.0f);
+			worldPosition = glm::vec3(0.0f);
+
 			entityId = -1;
+			isWireframe = false;
 		}
 
 		glm::vec3 position;
 		glm::vec3 oldPosition;
+		glm::vec3 worldPosition;
+
 		Entity entityId;
+
+		// HACK: Wireframe particles are just for reference, they shouldn't move from the constraints
+		bool isWireframe;
 	};
 
 	struct SoftBodySpring
