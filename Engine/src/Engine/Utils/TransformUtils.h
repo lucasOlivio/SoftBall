@@ -43,7 +43,7 @@ namespace MyEngine
                                            const float& scale, 
 										   glm::mat4& parentMat = glm::mat4(1.0f));
 		static glm::vec3 LocalToWorldPoint(const glm::vec3& point,
-										   const glm::vec3& position, const float& scale,
+										   const glm::vec3& position, const float& scale = 1.0f,
                                            glm::mat4& parentMat = glm::mat4(1.0f));
 		
 		static glm::vec3 WorldToLocalPoint(const glm::vec3& point,

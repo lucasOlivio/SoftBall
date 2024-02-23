@@ -277,6 +277,8 @@ namespace MyEngine
 	struct SoftBodyComponent
 	{
 		std::string meshName;
+		glm::vec3 position;
+		glm::vec3 oldPosition;
 
 		std::vector<SoftBodyParticle*> vecWireframeParticles; // Keep the particles in their origin
 		std::vector<SoftBodyParticle*> vecParticles;
@@ -285,7 +287,8 @@ namespace MyEngine
 		std::vector<SoftBodySpring*> vecWireframeSprings;
 
 		float defaultSpringStrength;
-		float defaultParticleMass;
+
+		bool createWireframe;
 	};
 
 	// TODO: Player Gameplay would be better separated from engine, using scripts instead of components

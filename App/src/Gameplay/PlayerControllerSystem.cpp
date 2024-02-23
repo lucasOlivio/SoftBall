@@ -94,10 +94,6 @@ namespace MyEngine
 
             pMouse->lastPosX = pMouse->posX;
             pMouse->lastPosY = pMouse->posY;
-
-            // HACK: Keep above floor
-            if(pTransform->position.y < 1.0f)
-                pTransform->position.y = 1.0f;
         }
 	}
 

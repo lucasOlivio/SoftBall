@@ -888,8 +888,8 @@ namespace MyEngine
         ImGui::Text("Default spring strength");
         ImGui::InputFloat("##SoftBodyDefaultSpringStrength", &pSoftBody->defaultSpringStrength);
 
-        ImGui::Text("Default particle mass");
-        ImGui::InputFloat("##SoftBodyParticleMass", &pSoftBody->defaultParticleMass);
+        ImGui::Text("Create wireframe?");
+        ImGui::Checkbox("##SoftBodyCreateWireframe", &pSoftBody->createWireframe);
     }
 
     void ComponentUI::m_PlayerUI(Scene* pScene, Entity entityId)

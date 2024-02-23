@@ -33,26 +33,18 @@ namespace MyEngine
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
             ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 
-            // HACK: Last particles are manually made for the transform contraints, see: SotBodyConstraintsSystem on Start
             size_t vecSize = pSoftBody->vecParticles.size();
             sMesh* pMesh = nullptr;
             if (pModel)
             {
                 pMesh = pModel->pMeshes[pModel->currMesh];
             }
+
             for (size_t i = 0; i < vecSize; i++)
             {
                 SoftBodyParticle* pParticle = pSoftBody->vecParticles[i];
-                // Verlet integration to apply acceleration to particles
-                glm::vec3 currentPos = pParticle->position;
-                glm::vec3 oldPos = pParticle->oldPosition;
-
-                pParticle->position += (currentPos - oldPos) + (pMovement->acceleration * (float)(deltaTime * deltaTime));
-
-                pParticle->oldPosition = currentPos;
-
-                CleanZeros(pParticle->position);
-                CleanZeros(pParticle->oldPosition);
+                ApplyVerlet(pParticle->position, pParticle->oldPosition,
+                            pMovement->acceleration, deltaTime);
 
                 // Update vertex positions, normals and transform based on particles
                 if (pMesh)

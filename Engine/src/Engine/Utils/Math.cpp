@@ -151,12 +151,21 @@ namespace MyEngine
         float diff = diffA / deltalength;
 
         positionA += delta * 0.5f * diff * springStregth;
-        CleanZeros(positionA);
 
         if (moveB)
         {
             positionB -= delta * 0.5f * diff * springStregth;
-            CleanZeros(positionB);
         }
+    }
+
+    void ApplyVerlet(glm::vec3& position, glm::vec3& oldPosition, 
+                     const glm::vec3& acceleration, float deltaTime)
+    {
+        glm::vec3 currentPos = position;
+        glm::vec3 oldPos = oldPosition;
+
+        position += (currentPos - oldPos) + (acceleration * (float)(deltaTime * deltaTime));
+
+        oldPosition = currentPos;
     }
 }

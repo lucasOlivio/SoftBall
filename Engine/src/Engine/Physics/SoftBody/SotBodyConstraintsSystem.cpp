@@ -39,6 +39,8 @@ namespace MyEngine
 
             m_ClearSoftBody(pSoftBody);
             pSoftBody->vecParticles.reserve(sizeVertices);
+            pSoftBody->position = pTransform->worldPosition;
+            pSoftBody->oldPosition = pSoftBody->position;
 
             // Create all the particles needed
             for (size_t i = 0; i < sizeVertices; i++)
@@ -80,6 +82,11 @@ namespace MyEngine
                 pSoftBody->vecSprings.push_back(springCA);
             }
 
+            if (!pSoftBody->createWireframe)
+            {
+                continue;
+            }
+
             // Create "wireframe" springs, to hold the particles to their original location
             for (unsigned int i = 0; i < sizeVertices; i++)
             {
@@ -89,10 +96,11 @@ namespace MyEngine
                 particleB->entityId = entityId;
                 particleB->position = particleA->position;
                 particleB->oldPosition = particleB->position;
-                particleB->worldPosition = TransformUtils::LocalToWorldPoint(particleB->position,
-                                                                             pTransform->worldPosition,
-                                                                             pTransform->worldOrientation,
-                                                                             pTransform->worldScale);
+                particleB->worldPosition = TransformUtils::LocalToWorldPoint(particleA->position,
+                                                                            pTransform->worldPosition,
+                                                                            pTransform->worldOrientation,
+                                                                            pTransform->worldScale);
+
                 // Set particle to be at the wireframe position initially
                 particleA->position = particleB->worldPosition;
                 particleA->oldPosition = particleB->worldPosition;
@@ -131,8 +139,8 @@ namespace MyEngine
                 SoftBodyParticle* particleB = pSpring->particleB;
 
                 UpdateSpringConstraint(particleA->position, particleB->worldPosition,
-                                           pSpring->restLength, pSoftBody->defaultSpringStrength,
-                                           false);
+                                        pSpring->restLength, pSoftBody->defaultSpringStrength,
+                                        false);
             }
         }
     }

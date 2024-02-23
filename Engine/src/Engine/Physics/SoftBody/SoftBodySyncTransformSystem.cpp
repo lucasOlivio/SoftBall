@@ -26,16 +26,20 @@ namespace MyEngine
         {
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
+            
+            // Adjust with transform center
+            for (int i = 0; i < 5; i++)
+            {
+                UpdateSpringConstraint(pSoftBody->position, pTransform->position,
+                                        0.0f, 1.0f, true);
+            }
 
-            // Adjust position
             for (int i = 0; i < pSoftBody->vecWireframeParticles.size(); i++)
             {
                 SoftBodyParticle* pParticle = pSoftBody->vecWireframeParticles[i];
                 
                 pParticle->worldPosition = TransformUtils::LocalToWorldPoint(pParticle->position,
-                                                                             pTransform->worldPosition,
-                                                                             pTransform->worldOrientation,
-                                                                             pTransform->worldScale);
+                                                                             pSoftBody->position);
             }
         }
     }

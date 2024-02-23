@@ -67,6 +67,12 @@ namespace MyEngine
 			"SoftBodySyncTransformSystem",
 			// Gameplay
 			"PlayerControllerSystem"
+
+			// Debug
+			/*,"DebugSystem",
+			"DrawGridSystem",
+			"DrawCollisionSystem",
+			"DrawSoftBodyParticlesSystem"*/
 		};
 
 		pStates->mapStateSystems[eGameStates::STOPPED] = {

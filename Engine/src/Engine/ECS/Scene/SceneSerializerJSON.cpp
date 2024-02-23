@@ -757,7 +757,7 @@ namespace MyEngine
 
         parser.SetMember(jsonObject, "meshName", softBodyIn.meshName, allocator);
         parser.SetMember(jsonObject, "defaultSpringStrength", softBodyIn.defaultSpringStrength, allocator);
-        parser.SetMember(jsonObject, "defaultParticleMass", softBodyIn.defaultParticleMass, allocator);
+        parser.SetMember(jsonObject, "createWireframe", softBodyIn.createWireframe, allocator);
 
         return true;
     }
@@ -1391,7 +1391,7 @@ namespace MyEngine
 
         parser.GetValue(jsonObject["meshName"], softBodyOut.meshName);
         parser.GetValue(jsonObject["defaultSpringStrength"], softBodyOut.defaultSpringStrength);
-        parser.GetValue(jsonObject["defaultParticleMass"], softBodyOut.defaultParticleMass);
+        parser.GetValue(jsonObject["createWireframe"], softBodyOut.createWireframe);
 
         return true;
     }

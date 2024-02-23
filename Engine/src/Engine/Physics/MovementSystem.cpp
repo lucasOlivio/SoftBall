@@ -42,6 +42,10 @@ namespace MyEngine
             }
 
             pTransform->position = pTransform->position + (pMovement->velocity * deltaTime);
+
+            // HACK: Keep above floor
+            if (pTransform->position.y < 1.0f)
+                pTransform->position.y = 1.0f;
         }
     }
 

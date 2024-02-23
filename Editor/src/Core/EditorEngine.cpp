@@ -66,6 +66,9 @@ namespace MyEngine
 		pStates->mapStateSystems[eGameStates::STARTED] = {};
 
 		pStates->mapStateSystems[eGameStates::RUNNING] = {
+			// Gameplay
+			"PlayerControllerSystem",
+			"SteeringBehaviorSystem",
 			// Graphics
 			"AnimationPlayerSystem",
 			// Physics
@@ -77,10 +80,7 @@ namespace MyEngine
 			"SoftBodyUpdateSystem",
 			"SoftBodyResponseSystem",
 			"SotBodyConstraintsSystem",
-			"SoftBodySyncTransformSystem",
-			// Gameplay
-			"PlayerControllerSystem",
-			"SteeringBehaviorSystem"
+			"SoftBodySyncTransformSystem"
 
 			// Debug
 			/*,"DebugSystem",

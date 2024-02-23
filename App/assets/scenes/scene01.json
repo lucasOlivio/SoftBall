@@ -32,10 +32,10 @@
                 5000.0
             ],
             "orientation": [
-                0.9999969601631165,
-                0.0019999968353658915,
-                0.001499996636994183,
-                -0.0000029999978323758114
+                0.9999944567680359,
+                0.0029999930411577225,
+                0.0014999927952885628,
+                -0.000004499992883211235
             ],
             "scale": 1.0
         },
@@ -47,11 +47,11 @@
             ],
             "acceleration": [
                 0.0,
-                -45.79999923706055,
+                -25.0,
                 0.0
             ],
             "maxSpeed": 500.0,
-            "drag": 0.5
+            "drag": 0.0
         },
         "model": {
             "isActive": 1,
@@ -74,10 +74,17 @@
                 0
             ]
         },
+        "rigidBody": {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider": {
+            "radius": 1.0
+        },
         "softBody": {
             "meshName": "sphere.ply",
-            "defaultSpringStrength": 0.5,
-            "defaultParticleMass": 1.0
+            "defaultSpringStrength": 0.30000001192092896,
+            "createWireframe": 1
         },
         "player": {
             "speed": 50.0
@@ -411,28 +418,6 @@
             "FBOIDs": [
                 0
             ]
-        }
-    },
-    {
-        "tag": {
-            "name": "Ball"
-        },
-        "transform": {
-            "position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": 1.0
-        },
-        "parent": {
-            "parentId": 1
         }
     }
 ]
