@@ -888,8 +888,11 @@ namespace MyEngine
         ImGui::Text("Default spring strength");
         ImGui::InputFloat("##SoftBodyDefaultSpringStrength", &pSoftBody->defaultSpringStrength);
 
-        ImGui::Text("Create wireframe?");
-        ImGui::Checkbox("##SoftBodyCreateWireframe", &pSoftBody->createWireframe);
+        ImGui::Text("Is wireframe?");
+        ImGui::Checkbox("##SoftBodyisWireframe", &pSoftBody->isWireframe);
+
+        ImGui::Text("Is internal springs?");
+        ImGui::Checkbox("##SoftBodyisInternalSprings", &pSoftBody->isInternalSprings);
     }
 
     void ComponentUI::m_PlayerUI(Scene* pScene, Entity entityId)

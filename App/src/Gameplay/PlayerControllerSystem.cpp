@@ -94,6 +94,12 @@ namespace MyEngine
 
             pMouse->lastPosX = pMouse->posX;
             pMouse->lastPosY = pMouse->posY;
+
+            // Keep jumping
+            if (pTransform->position.y <= 1.1f)
+            {
+                pMovement->velocity.y = PLAYER_JUMP_SPEED;
+            }
         }
 	}
 
@@ -128,28 +134,28 @@ namespace MyEngine
             pEventBus->Publish(collEvent);
             break;
         }
-        case eKeyCodes::SPACE:
-        {
-            if (event.keyData.action != eInputActions::KEY_PRESS)
-            {
-                return;
-            }
+        //case eKeyCodes::SPACE:
+        //{
+        //    if (event.keyData.action != eInputActions::KEY_PRESS)
+        //    {
+        //        return;
+        //    }
 
-            // JUMP
-            iSceneManager* pSceneManager = SceneManagerLocator::Get();
-            Scene* pScene = pSceneManager->GetCurrentScene();
-            Entity playerId = GameplayUtils::GetPlayerId(pScene);
+        //    // JUMP
+        //    iSceneManager* pSceneManager = SceneManagerLocator::Get();
+        //    Scene* pScene = pSceneManager->GetCurrentScene();
+        //    Entity playerId = GameplayUtils::GetPlayerId(pScene);
 
-            MovementComponent* pMovement = pScene->Get<MovementComponent>(playerId);
-            TransformComponent* pTransform = pScene->Get<TransformComponent>(playerId);
+        //    MovementComponent* pMovement = pScene->Get<MovementComponent>(playerId);
+        //    TransformComponent* pTransform = pScene->Get<TransformComponent>(playerId);
 
-            if (pTransform->position.y <= 1.0f)
-            {
-                pMovement->velocity.y = PLAYER_JUMP_SPEED;
-            }
+        //    if (pTransform->position.y <= 1.0f)
+        //    {
+        //        pMovement->velocity.y = PLAYER_JUMP_SPEED;
+        //    }
 
-            break;
-        }
+        //    break;
+        //}
         default:
             break;
         }

@@ -280,6 +280,8 @@ namespace MyEngine
 		glm::vec3 position;
 		glm::vec3 oldPosition;
 
+		glm::quat orientation;
+
 		std::vector<SoftBodyParticle*> vecWireframeParticles; // Keep the particles in their origin
 		std::vector<SoftBodyParticle*> vecParticles;
 
@@ -288,7 +290,8 @@ namespace MyEngine
 
 		float defaultSpringStrength;
 
-		bool createWireframe;
+		bool isWireframe;
+		bool isInternalSprings;
 	};
 
 	// TODO: Player Gameplay would be better separated from engine, using scripts instead of components
