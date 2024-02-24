@@ -7,6 +7,8 @@
 #include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/Components.h"
 
+#include "Engine/Graphics/VAO/VAOManagerLocator.h"
+
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/GraphicsUtils.h"
 
@@ -27,6 +29,7 @@ namespace MyEngine
     void ModelRenderSystem::Render(Scene* pScene)
     {
         iRendererManager* pRendererManager = RendererManagerLocator::Get();
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
 
         for (Entity entityId : SceneView<TransformComponent, ModelComponent>(*pScene))
         {
@@ -45,7 +48,19 @@ namespace MyEngine
                                          pTransform->worldScale,
                                          matTransform);
 
-            sMesh* pMesh = pModel->pMeshes[pModel->currMesh];
+            SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
+            sMesh* pMesh = nullptr;
+            if (pSoftBody)
+            {
+                std::string meshCopy = pSoftBody->meshName + std::to_string(entityId);
+                pMesh = pVAOManager->FindMeshByModelName(meshCopy);
+            }
+
+            if (!pMesh)
+            {
+                pMesh = pModel->pMeshes[pModel->currMesh];
+            }
+
             if (!pMesh)
             {
                 continue;

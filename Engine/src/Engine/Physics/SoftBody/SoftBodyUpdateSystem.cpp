@@ -24,6 +24,8 @@ namespace MyEngine
 
     void SoftBodyUpdateSystem::Update(Scene* pScene, float deltaTime)
     {
+        deltaTime = deltaTime / 5.0f;
+
         iVAOManager* pVAOManager = VAOManagerLocator::Get();
         // Update velocity and position
         for (Entity entityId : SceneView<TransformComponent, MovementComponent, SoftBodyComponent>(*pScene))
@@ -31,15 +33,17 @@ namespace MyEngine
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
             MovementComponent* pMovement = pScene->Get<MovementComponent>(entityId);
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
-            ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 
             size_t vecSize = pSoftBody->vecParticles.size();
-            sMesh* pMesh = nullptr;
-            if (pModel)
+            if (vecSize == 0)
             {
-                pMesh = pModel->pMeshes[pModel->currMesh];
+                continue;
             }
 
+            std::string meshCopy = pSoftBody->meshName + std::to_string(entityId);
+            sMesh* pMesh = pVAOManager->FindMeshByModelName(meshCopy);
+
+            // HACK: The -2 is to avoid the "reference" particles for forward and up
             for (size_t i = 0; i < vecSize; i++)
             {
                 SoftBodyParticle* pParticle = pSoftBody->vecParticles[i];
@@ -47,7 +51,7 @@ namespace MyEngine
                             pMovement->acceleration, deltaTime);
 
                 // Update vertex positions, normals and transform based on particles
-                if (pMesh)
+                if (pMesh && i < vecSize - 2)
                 {
                     sVertex& vertex = pMesh->pVertices[i];
                     glm::vec3 localPosition = TransformUtils::WorldToLocalPoint(pParticle->position,

@@ -59,6 +59,9 @@ namespace MyEngine
 		pStates->mainSystems.push_back("GuizmoSystem");
 		pStates->mainSystems.push_back("FlyingCameraSystem");
 
+		//DEBUG
+		pStates->mainSystems.push_back("DebugSystem");
+
 		// TODO: This could come from a config file
 		// TODO: Could this be categorized to avoid having to put all in the config?
 		pStates->mapStateSystems[eGameStates::NOT_STARTED] = {};
@@ -78,18 +81,23 @@ namespace MyEngine
 			"GridBroadPhaseSystem",
 			"CollisionSystem",
 			"SoftBodyUpdateSystem",
-			"SoftBodySyncTransformSystem",
 			"SoftBodyResponseSystem",
-			"SotBodyConstraintsSystem"
+			"SotBodyConstraintsSystem",
+			"SoftBodySyncTransformSystem"
 
 			// Debug
-			,"DebugSystem",
-			"DrawGridSystem",
-			"DrawCollisionSystem",
-			"DrawSoftBodyParticlesSystem"
+			/*"DrawGridSystem",
+			"DrawCollisionSystem",*/
+			,"DrawSoftBodyParticlesSystem"
 		};
 
-		pStates->mapStateSystems[eGameStates::STOPPED] = {};
+		pStates->mapStateSystems[eGameStates::STOPPED] = {
+
+			// Debug
+			/*"DrawGridSystem",
+			"DrawCollisionSystem",*/
+			"DrawSoftBodyParticlesSystem" 
+		};
 
 		pStates->mapStateSystems[eGameStates::GAMEOVER] = {};
 	}

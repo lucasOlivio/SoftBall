@@ -45,6 +45,8 @@ namespace MyEngine
 		pStates->mainSystems.push_back("LightFlickerSystem");
 		pStates->mainSystems.push_back("MaterialOffsetSystem");
 		pStates->mainSystems.push_back("AnimationSystem");
+		//DEBUG
+		pStates->mainSystems.push_back("DebugSystem");
 
 		// TODO: This could come from a config file
 		// TODO: Could this be categorized to avoid having to put all in the config?
@@ -69,15 +71,18 @@ namespace MyEngine
 			"PlayerControllerSystem"
 
 			// Debug
-			/*,"DebugSystem",
-			"DrawGridSystem",
-			"DrawCollisionSystem",
-			"DrawSoftBodyParticlesSystem"*/
+			/*"DrawGridSystem",
+			"DrawCollisionSystem",*/
+			,"DrawSoftBodyParticlesSystem"
 		};
 
 		pStates->mapStateSystems[eGameStates::STOPPED] = {
 			// Physics
 			"GridBroadPhaseSystem"
+			// Debug
+			/*"DrawGridSystem",
+			"DrawCollisionSystem",*/
+			,"DrawSoftBodyParticlesSystem"
 		};
 
 		pStates->mapStateSystems[eGameStates::GAMEOVER] = {};

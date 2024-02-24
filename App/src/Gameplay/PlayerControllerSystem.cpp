@@ -100,6 +100,12 @@ namespace MyEngine
             {
                 pMovement->velocity.y = PLAYER_JUMP_SPEED;
             }
+
+            // HACK: Pin one particle from the cube
+
+            /*SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(2);
+            SoftBodyParticle* pParticle = pSoftBody->vecParticles[0];
+            pParticle->position = pParticle->oldPosition;*/
         }
 	}
 
@@ -134,28 +140,26 @@ namespace MyEngine
             pEventBus->Publish(collEvent);
             break;
         }
-        //case eKeyCodes::SPACE:
-        //{
-        //    if (event.keyData.action != eInputActions::KEY_PRESS)
-        //    {
-        //        return;
-        //    }
+        case eKeyCodes::SPACE:
+        {
+            if (event.keyData.action != eInputActions::KEY_PRESS)
+            {
+                return;
+            }
 
-        //    // JUMP
-        //    iSceneManager* pSceneManager = SceneManagerLocator::Get();
-        //    Scene* pScene = pSceneManager->GetCurrentScene();
-        //    Entity playerId = GameplayUtils::GetPlayerId(pScene);
+            GameStateComponent* pState = CoreLocator::GetGameState();
 
-        //    MovementComponent* pMovement = pScene->Get<MovementComponent>(playerId);
-        //    TransformComponent* pTransform = pScene->Get<TransformComponent>(playerId);
+            if(pState->currState == eGameStates::RUNNING)
+            {
+                pState->currState = eGameStates::STOPPED;
+            }
+            else
+            {
+                pState->currState = eGameStates::RUNNING;
+            }
 
-        //    if (pTransform->position.y <= 1.0f)
-        //    {
-        //        pMovement->velocity.y = PLAYER_JUMP_SPEED;
-        //    }
-
-        //    break;
-        //}
+            break;
+        }
         default:
             break;
         }

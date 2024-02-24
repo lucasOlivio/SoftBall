@@ -288,8 +288,11 @@ namespace MyEngine
 		std::vector<SoftBodySpring*> vecSprings;
 		std::vector<SoftBodySpring*> vecWireframeSprings;
 
-		float defaultSpringStrength;
+		float springStrength;
+		float wireframeStrength;
+		int iterations;
 
+		// Should the wireframe be controlled by the transform or the particles?
 		bool isWireframe;
 		bool isInternalSprings;
 	};

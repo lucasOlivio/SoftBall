@@ -28,7 +28,7 @@ namespace MyEngine
     // Constraint update for connected particles
     void UpdateSpringConstraint(glm::vec3& positionA, glm::vec3& positionB,
                                 const float& restLength, const float& springStregth,
-                                bool moveB = true);
+                                int iterations = 1, bool moveB = true);
 
     // Verlet integration to apply acceleration to particles
     void ApplyVerlet(glm::vec3& position, glm::vec3& oldPosition, 

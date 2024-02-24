@@ -885,8 +885,14 @@ namespace MyEngine
         ImGui::Text("Mesh name");
         ImGui::InputText("##SoftBodyMesh", &pSoftBody->meshName);
 
-        ImGui::Text("Default spring strength");
-        ImGui::InputFloat("##SoftBodyDefaultSpringStrength", &pSoftBody->defaultSpringStrength);
+        ImGui::Text("Spring strength");
+        ImGui::InputFloat("##SoftBodyspringStrengthStrength", &pSoftBody->springStrength);
+
+        ImGui::Text("Wireframe strength");
+        ImGui::InputFloat("##SoftBodywireframeStrengthStrength", &pSoftBody->wireframeStrength);
+
+        ImGui::Text("Num of Iterations");
+        ImGui::InputInt("##SoftBodyIterations", &pSoftBody->iterations);
 
         ImGui::Text("Is wireframe?");
         ImGui::Checkbox("##SoftBodyisWireframe", &pSoftBody->isWireframe);

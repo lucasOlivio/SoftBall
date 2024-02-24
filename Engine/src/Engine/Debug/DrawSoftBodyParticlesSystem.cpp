@@ -34,6 +34,7 @@ namespace MyEngine
         for (Entity entityId : SceneView<SoftBodyComponent>(*pScene))
         {
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
+            TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
 
             for (SoftBodyParticle* particle : pSoftBody->vecParticles)
             {

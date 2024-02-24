@@ -138,23 +138,28 @@ namespace MyEngine
 
     void UpdateSpringConstraint(glm::vec3& positionA, glm::vec3& positionB,
                                 const float& restLength, const float& springStregth,
-                                bool moveB)
+                                int iterations, bool moveB)
     {
-        glm::vec3 delta = positionB - positionA;
-        float deltalength = glm::length(delta);
-        if (deltalength <= MIN_FLOAT)
+        for (int i = 0; i < iterations; i++)
         {
-            return;
-        }
+            glm::vec3 delta = positionB - positionA;
+            float deltalength = glm::length(delta);
+            if (deltalength <= MIN_FLOAT)
+            {
+                return;
+            }
 
-        float diffA = (deltalength - restLength);
-        float diff = diffA / deltalength;
+            float diffA = (deltalength - restLength);
+            float diff = diffA / deltalength;
 
-        positionA += delta * 0.5f * diff * springStregth;
+            glm::vec3 deltaPos = delta * 0.5f * diff * springStregth;
 
-        if (moveB)
-        {
-            positionB -= delta * 0.5f * diff * springStregth;
+            positionA += deltaPos;
+
+            if (moveB)
+            {
+                positionB -= deltaPos;
+            }
         }
     }
 

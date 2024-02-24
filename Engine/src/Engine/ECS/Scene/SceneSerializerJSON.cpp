@@ -756,7 +756,9 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.SetMember(jsonObject, "meshName", softBodyIn.meshName, allocator);
-        parser.SetMember(jsonObject, "defaultSpringStrength", softBodyIn.defaultSpringStrength, allocator);
+        parser.SetMember(jsonObject, "springStrength", softBodyIn.springStrength, allocator);
+        parser.SetMember(jsonObject, "wireframeStrength", softBodyIn.wireframeStrength, allocator);
+        parser.SetMember(jsonObject, "iterations", softBodyIn.iterations, allocator);
         parser.SetMember(jsonObject, "isWireframe", softBodyIn.isWireframe, allocator);
         parser.SetMember(jsonObject, "isInternalSprings", softBodyIn.isInternalSprings, allocator);
 
@@ -1391,7 +1393,9 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["meshName"], softBodyOut.meshName);
-        parser.GetValue(jsonObject["defaultSpringStrength"], softBodyOut.defaultSpringStrength);
+        parser.GetValue(jsonObject["springStrength"], softBodyOut.springStrength);
+        parser.GetValue(jsonObject["wireframeStrength"], softBodyOut.wireframeStrength);
+        parser.GetValue(jsonObject["iterations"], softBodyOut.iterations);
         parser.GetValue(jsonObject["isWireframe"], softBodyOut.isWireframe);
         parser.GetValue(jsonObject["isInternalSprings"], softBodyOut.isInternalSprings);
 

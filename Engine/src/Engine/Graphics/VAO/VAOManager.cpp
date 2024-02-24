@@ -67,9 +67,14 @@ namespace MyEngine
         // Load original first
         sMesh* pMesh = LoadModelIntoVAO(fileName, bIsDynamicBuffer,
                                         hasNormals, hasTexture);
+        if (!pMesh)
+        {
+            return nullptr;
+        }
 
         // Copy mesh data and load in separated VAO
         sMesh* pMeshCopy = new sMesh(*pMesh);
+        pMeshCopy->name = copyName;
 
         m_LoadVAOData(pMeshCopy, hasNormals, hasTexture, bIsDynamicBuffer);
 

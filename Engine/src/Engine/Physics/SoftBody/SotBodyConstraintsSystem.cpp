@@ -15,8 +15,6 @@
 
 namespace MyEngine
 {
-    const std::string PREFIX_MESH = "softbody-";
-
     void SotBodyConstraintsSystem::Init()
     {
     }
@@ -32,15 +30,19 @@ namespace MyEngine
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
 
             // Create a copy of the mesh into the VAO
-            std::string meshCopy = PREFIX_MESH + pSoftBody->meshName + std::to_string(entityId);
+            std::string meshCopy = pSoftBody->meshName + std::to_string(entityId);
             sMesh* pMesh = pVAOManager->LoadModelCopyIntoVAO(pSoftBody->meshName, true, true, false, meshCopy);
+            if (!pMesh)
+            {
+                continue;
+            }
 
             size_t sizeVertices = static_cast<size_t>(pMesh->numberOfVertices);
 
             m_ClearSoftBody(pSoftBody);
             pSoftBody->vecParticles.reserve(sizeVertices);
-            pSoftBody->position = pTransform->worldPosition;
-            pSoftBody->orientation = pTransform->worldOrientation;
+            pSoftBody->position = pTransform->position;
+            pSoftBody->orientation = pTransform->orientation;
             pSoftBody->oldPosition = pSoftBody->position;
 
             // Create all the particles needed
@@ -57,43 +59,82 @@ namespace MyEngine
                 pSoftBody->vecParticles.push_back(pParticle);
             }
 
-            if (pSoftBody->isWireframe)
+            // HACK: Create particles for forward and up reference
+            SoftBodyParticle* pParticleFront = new SoftBodyParticle();
+            pParticleFront->entityId = entityId;
+            pParticleFront->position = FORWARD_VECTOR;
+            pParticleFront->oldPosition = pParticleFront->position;
+            pParticleFront->worldPosition = pParticleFront->position;
+
+            pSoftBody->vecParticles.push_back(pParticleFront);
+
+            SoftBodyParticle* pParticleUp = new SoftBodyParticle();
+            pParticleUp->entityId = entityId;
+            pParticleUp->position = UP_VECTOR;
+            pParticleUp->oldPosition = pParticleUp->position;
+            pParticleUp->worldPosition = pParticleUp->position;
+
+            pSoftBody->vecParticles.push_back(pParticleUp);
+
+            // Create "wireframe" springs and orientation springs, to hold the particles to their original location
+            for (unsigned int i = 0; i < pSoftBody->vecParticles.size() - 2; i++)
             {
-                // Create "wireframe" springs, to hold the particles to their original location
-                for (unsigned int i = 0; i < sizeVertices; i++)
-                {
-                    SoftBodyParticle* particleA = pSoftBody->vecParticles[i];
-                    SoftBodyParticle* particleB = new SoftBodyParticle();
-                    glm::mat4 transfMat = glm::mat4(1.0f);
-                    particleB->entityId = entityId;
-                    particleB->position = particleA->position;
-                    particleB->oldPosition = particleB->position;
-                    particleB->worldPosition = TransformUtils::LocalToWorldPoint(particleA->position,
-                        pTransform->worldPosition,
-                        pTransform->worldOrientation,
-                        pTransform->worldScale);
+                SoftBodyParticle* particleA = pSoftBody->vecParticles[i];
+                SoftBodyParticle* particleB = new SoftBodyParticle();
 
-                    pSoftBody->vecWireframeParticles.push_back(particleB);
+                particleB->entityId = entityId;
+                particleB->position = particleA->position;
+                particleB->oldPosition = particleB->position;
+                particleB->worldPosition = TransformUtils::LocalToWorldPoint(particleA->position,
+                    pTransform->worldPosition,
+                    pTransform->worldOrientation,
+                    pTransform->worldScale);
 
-                    SoftBodySpring* pSpringAB = new SoftBodySpring();
-                    pSpringAB->restLength = 0.0f;
-                    pSpringAB->particleA = particleA;
-                    pSpringAB->particleB = particleB;
-                    pSoftBody->vecWireframeSprings.push_back(pSpringAB);
-                }
+                pSoftBody->vecWireframeParticles.push_back(particleB);
+
+                SoftBodySpring* pSpringAB = new SoftBodySpring();
+                pSpringAB->restLength = 0.0f;
+                pSpringAB->particleA = particleA;
+                pSpringAB->particleB = particleB;
+                pSoftBody->vecWireframeSprings.push_back(pSpringAB);
+
+                // Reference springs
+                SoftBodySpring* pSpringForward = new SoftBodySpring();
+                pSpringForward->restLength = glm::distance(particleA->position, pParticleFront->position);
+                pSpringForward->particleA = particleA;
+                pSpringForward->particleB = pParticleFront;
+                pSoftBody->vecSprings.push_back(pSpringForward);
+
+                SoftBodySpring* pSpringUp = new SoftBodySpring();
+                pSpringUp->restLength = glm::distance(particleA->position, pParticleUp->position);
+                pSpringUp->particleA = particleA;
+                pSpringUp->particleB = pParticleUp;
+                pSoftBody->vecSprings.push_back(pSpringUp);
             }
 
             // HACK: Set particle to be at the world position initially
-            for (unsigned int i = 0; i < sizeVertices; i++)
+            for (unsigned int i = 0; i < pSoftBody->vecParticles.size() - 2; i++)
             {
                 SoftBodyParticle* particle = pSoftBody->vecParticles[i];
                 particle->position = TransformUtils::LocalToWorldPoint(particle->position,
-                    pSoftBody->position,
-                    pSoftBody->orientation,
-                    pTransform->worldScale);
+                                                                        pSoftBody->position,
+                                                                        pSoftBody->orientation,
+                                                                        pTransform->worldScale);
                 particle->oldPosition = particle->position;
                 particle->worldPosition = particle->position;
             }
+
+            pParticleUp->position = TransformUtils::LocalToWorldPoint(pParticleUp->position,
+                                                                    pSoftBody->position,
+                                                                    pTransform->worldScale);
+            pParticleUp->oldPosition = pParticleUp->position;
+            pParticleUp->worldPosition = pParticleUp->position;
+
+            pParticleFront->position = TransformUtils::LocalToWorldPoint(pParticleFront->position,
+                                                                    pSoftBody->position,
+                                                                    pTransform->worldScale);
+            pParticleFront->oldPosition = pParticleFront->position;
+            pParticleFront->worldPosition = pParticleFront->position;
 
             unsigned int halfIndices = static_cast<int>(pMesh->numberOfIndices / 2);
             uint32_t seed = static_cast<uint32_t>(entityId);
@@ -121,39 +162,6 @@ namespace MyEngine
                 springCA->particleA = particleC;
                 springCA->particleB = particleA;
                 pSoftBody->vecSprings.push_back(springCA);
-
-                // Create internal springs to help keep the structure
-                // HACK: For now we keep fixed at half the vertices to hold everything
-                if (!pSoftBody->isInternalSprings || i > halfIndices)
-                {
-                    continue;
-                }
-
-                int randomIndexA = Random::Int(seed, 0, pMesh->numberOfIndices - 1);
-                int randomIndexB = Random::Int(seed, 0, pMesh->numberOfIndices - 1);
-                int randomIndexC = Random::Int(seed, 0, pMesh->numberOfIndices - 1);
-
-                SoftBodyParticle* particleA2 = pSoftBody->vecParticles[pMesh->pIndices[randomIndexA]];
-                SoftBodyParticle* particleB2 = pSoftBody->vecParticles[pMesh->pIndices[randomIndexB]];
-                SoftBodyParticle* particleC2 = pSoftBody->vecParticles[pMesh->pIndices[randomIndexC]];
-
-                SoftBodySpring* pSpringA2 = new SoftBodySpring();
-                pSpringA2->restLength = glm::distance(particleA->position, particleA2->position);
-                pSpringA2->particleA = particleA;
-                pSpringA2->particleB = particleA2;
-                pSoftBody->vecSprings.push_back(pSpringA2);
-
-                SoftBodySpring* pSpringB2 = new SoftBodySpring();
-                pSpringB2->restLength = glm::distance(particleB->position, particleB2->position);
-                pSpringB2->particleA = particleB;
-                pSpringB2->particleB = particleB2;
-                pSoftBody->vecSprings.push_back(pSpringB2);
-
-                SoftBodySpring* springC2 = new SoftBodySpring();
-                springC2->restLength = glm::distance(particleC->position, particleC2->position);
-                springC2->particleA = particleC;
-                springC2->particleB = particleC2;
-                pSoftBody->vecSprings.push_back(springC2);
             }
         }
     }
@@ -171,20 +179,18 @@ namespace MyEngine
                 SoftBodyParticle* particleB = pSpring->particleB;
 
                 UpdateSpringConstraint(particleA->position, particleB->position,
-                                       pSpring->restLength, pSoftBody->defaultSpringStrength);
+                                       pSpring->restLength, pSoftBody->springStrength,
+                                        pSoftBody->iterations);
             }
 
-            if (pSoftBody->isWireframe)
+            for (SoftBodySpring* pSpring : pSoftBody->vecWireframeSprings)
             {
-                for (SoftBodySpring* pSpring : pSoftBody->vecWireframeSprings)
-                {
-                    SoftBodyParticle* particleA = pSpring->particleA;
-                    SoftBodyParticle* particleB = pSpring->particleB;
+                SoftBodyParticle* particleA = pSpring->particleA;
+                SoftBodyParticle* particleB = pSpring->particleB;
 
-                    UpdateSpringConstraint(particleA->position, particleB->worldPosition,
-                        pSpring->restLength, pSoftBody->defaultSpringStrength,
-                        false);
-                }
+                UpdateSpringConstraint(particleA->position, particleB->worldPosition,
+                    pSpring->restLength, pSoftBody->wireframeStrength,
+                    pSoftBody->iterations, false);
             }
         }
     }
@@ -215,6 +221,11 @@ namespace MyEngine
             delete pSpring;
         }
 
+        for (SoftBodySpring* pSpring : pSoftBody->vecWireframeSprings)
+        {
+            delete pSpring;
+        }
+
         for (SoftBodyParticle* pParticle : pSoftBody->vecParticles)
         {
             delete pParticle;
@@ -226,6 +237,7 @@ namespace MyEngine
         }
 
         pSoftBody->vecSprings.clear();
+        pSoftBody->vecWireframeSprings.clear();
         pSoftBody->vecParticles.clear();
         pSoftBody->vecWireframeParticles.clear();
     }

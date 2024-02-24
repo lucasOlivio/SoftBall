@@ -28,12 +28,63 @@ namespace MyEngine
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
 
+            if (pSoftBody->vecParticles.size() == 0)
+            {
+                continue;
+            }
+
+            if (pSoftBody->isInternalSprings)
+            {
+                // HACK: Last two particles will always be the orientational particles
+                std::vector<SoftBodyParticle*>::reverse_iterator it = pSoftBody->vecParticles.rbegin();
+                SoftBodyParticle* pParticleUp = *it;
+                SoftBodyParticle* pParticleForward = *(it + 1);
+                glm::vec3 up = glm::normalize(TransformUtils::WorldToLocalPoint(pParticleUp->position,
+                                                                                pTransform->worldPosition,
+                                                                                pTransform->worldScale));
+                glm::vec3 forward = glm::normalize(TransformUtils::WorldToLocalPoint(pParticleForward->position,
+                                                                                    pTransform->worldPosition,
+                                                                                    pTransform->worldScale));
+                glm::quat rot = glm::quatLookAt(forward, up);
+
+                pSoftBody->orientation = rot;
+
+                glm::vec3 weightedSum = glm::vec3(0.0f);
+                float totalWeight = 0.0f;
+                size_t vecSize = pSoftBody->vecParticles.size();
+
+                // HACK: The -2 is to avoid the "reference" particles for forward and up
+                for (size_t i = 0; i < vecSize - 2; i++)
+                {
+                    SoftBodyParticle* pParticle = pSoftBody->vecParticles[i];
+                    SoftBodyParticle* pParticleWireframe = pSoftBody->vecWireframeParticles[i];
+
+                    // Calculate weighted sum of particle positions
+                    float distanceSquared = glm::length(pParticle->position - pTransform->position);
+                    float weight = 1.0f / (distanceSquared + 1.0f); // Adding 1 to avoid division by zero
+
+                    // HACK: Updating transform based on particles average position, this should not be here
+                    weightedSum += pParticle->position * weight;
+                    totalWeight += weight;
+                }
+
+                if (totalWeight <= 0.1f) 
+                {
+                    continue;
+                }
+
+                // Update transform position to weighted average position of particles
+                glm::vec3 averagePosition = weightedSum / totalWeight;
+                pTransform->position = averagePosition;
+                pSoftBody->position = averagePosition;
+            }
+
             if (pSoftBody->isWireframe)
             {
-                for (int i = 0; i < 5; i++)
+                if (!pSoftBody->isInternalSprings)
                 {
                     UpdateSpringConstraint(pSoftBody->position, pTransform->position,
-                        0.0f, 1.0f, true);
+                                            0.0f, 1.0f, 5, true);
                 }
 
                 for (int i = 0; i < pSoftBody->vecWireframeParticles.size(); i++)
@@ -41,40 +92,9 @@ namespace MyEngine
                     SoftBodyParticle* pParticle = pSoftBody->vecWireframeParticles[i];
 
                     pParticle->worldPosition = TransformUtils::LocalToWorldPoint(pParticle->position,
-                        pSoftBody->position);
-                }
-            }
-
-            if (pSoftBody->isInternalSprings)
-            {
-                glm::vec3 weightedSum = glm::vec3(0.0f);
-                glm::vec3 weightedDirection = glm::vec3(0.0f);
-                float totalWeight = 0.0f;
-                size_t vecSize = pSoftBody->vecParticles.size();
-                for (size_t i = 0; i < vecSize; i++)
-                {
-                    SoftBodyParticle* pParticle = pSoftBody->vecParticles[i];
-
-                    // HACK: Updating transform based on particles average position, this should not be here
-
-                    // Calculate weighted sum of particle positions
-                    float distanceSquared = glm::length(pParticle->position - pTransform->worldPosition);
-                    float weight = 1.0f / (distanceSquared + 1.0f); // Adding 1 to avoid division by zero
-                    weightedSum += pParticle->position * weight;
-                    weightedDirection += glm::normalize(pParticle->position - pTransform->worldPosition) * weight;
-                    totalWeight += weight;
-                }
-
-                // Update transform position to weighted average position of particles
-                if (totalWeight > 0.0f) {
-                    glm::vec3 averagePosition = weightedSum / totalWeight;
-                    pTransform->position = averagePosition;
-                    pSoftBody->position = averagePosition;
-
-                    // Calculate rotation to align with the weighted direction
-                    glm::quat rotation = glm::quatLookAt(glm::normalize(weightedDirection), glm::vec3(UP_VECTOR));
-                    pTransform->orientation = rotation;
-                    pSoftBody->orientation = rotation;
+                                                                                    pSoftBody->position,
+                                                                                    pSoftBody->orientation,
+                                                                                    pTransform->worldScale);
                 }
             }
         }
