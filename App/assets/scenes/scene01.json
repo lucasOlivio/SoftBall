@@ -32,10 +32,10 @@
                 5000.0
             ],
             "orientation": [
-                0.9479902982711792,
-                -0.22797396779060364,
-                -0.2159738391637802,
-                -0.05193771794438362
+                1.0,
+                -8.413201147931243e-31,
+                1.3552527156068805e-20,
+                6.207846736661082e-11
             ],
             "scale": 1.0
         },
@@ -47,7 +47,7 @@
             ],
             "acceleration": [
                 0.0,
-                0.0,
+                -25.0,
                 0.0
             ],
             "maxSpeed": 100.0,
@@ -148,8 +148,194 @@
         },
         "softBody": {
             "meshName": "cube.ply",
-            "springStrength": 0.4000000059604645,
-            "wireframeStrength": 0.20000000298023224,
+            "springStrength": 0.6000000238418579,
+            "wireframeStrength": 0.30000001192092896,
+            "iterations": 1,
+            "isWireframe": 1,
+            "isInternalSprings": 1
+        }
+    },
+    {
+        "tag": {
+            "name": "Cube"
+        },
+        "transform": {
+            "position": [
+                5000.0,
+                10.0,
+                4987.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                -25.0,
+                0.0
+            ],
+            "maxSpeed": 100.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 1,
+            "useTransparency": 0,
+            "defaultColor": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 0,
+            "material": "",
+            "models": [
+                "cube.ply"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "softBody": {
+            "meshName": "cube.ply",
+            "springStrength": 0.6000000238418579,
+            "wireframeStrength": 0.30000001192092896,
+            "iterations": 1,
+            "isWireframe": 1,
+            "isInternalSprings": 1
+        }
+    },
+    {
+        "tag": {
+            "name": "Cube"
+        },
+        "transform": {
+            "position": [
+                5001.0,
+                10.0,
+                4991.0
+            ],
+            "orientation": [
+                0.9238795042037964,
+                0.3826834559440613,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                -25.0,
+                0.0
+            ],
+            "maxSpeed": 100.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 1,
+            "useTransparency": 0,
+            "defaultColor": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 0,
+            "material": "",
+            "models": [
+                "cube.ply"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "softBody": {
+            "meshName": "cube.ply",
+            "springStrength": 0.6000000238418579,
+            "wireframeStrength": 0.30000001192092896,
+            "iterations": 1,
+            "isWireframe": 1,
+            "isInternalSprings": 1
+        }
+    },
+    {
+        "tag": {
+            "name": "Cube"
+        },
+        "transform": {
+            "position": [
+                4997.0,
+                10.0,
+                4992.0
+            ],
+            "orientation": [
+                0.9238795042037964,
+                0.3826834559440613,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                -25.0,
+                0.0
+            ],
+            "maxSpeed": 100.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 1,
+            "useTransparency": 0,
+            "defaultColor": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 0,
+            "material": "",
+            "models": [
+                "cube.ply"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "softBody": {
+            "meshName": "cube.ply",
+            "springStrength": 0.6000000238418579,
+            "wireframeStrength": 0.30000001192092896,
             "iterations": 1,
             "isWireframe": 1,
             "isInternalSprings": 1
@@ -479,49 +665,6 @@
             "material": "matground",
             "models": [
                 "flat.obj"
-            ],
-            "FBOIDs": [
-                0
-            ]
-        }
-    },
-    {
-        "tag": {
-            "name": "Cubechild"
-        },
-        "transform": {
-            "position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": 1.0
-        },
-        "parent": {
-            "parentId": 2
-        },
-        "model": {
-            "isActive": 0,
-            "doNotLight": 0,
-            "isWireframe": 0,
-            "isDynamic": 0,
-            "useDefaultColor": 1,
-            "useTransparency": 0,
-            "defaultColor": [
-                1.0,
-                1.0,
-                0.0
-            ],
-            "useColorTexture": 0,
-            "material": "",
-            "models": [
-                "cube.ply"
             ],
             "FBOIDs": [
                 0
