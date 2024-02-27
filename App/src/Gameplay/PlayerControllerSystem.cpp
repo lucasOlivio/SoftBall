@@ -17,9 +17,12 @@
 #include "Engine/Utils/InputUtils.h"
 #include "Engine/Utils/GameplayUtils.h"
 
+#include "Engine/Graphics/VAO/VAOManagerLocator.h"
+
 namespace MyEngine
 {
     const float PLAYER_JUMP_SPEED = 20.0f;
+    const glm::vec3 CHAIN_POSITION = glm::vec3(5000.0f, 13.0f, 4980.0f);
 
 	void PlayerControllerSystem::Init()
 	{
@@ -29,6 +32,21 @@ namespace MyEngine
         pEventBus->Subscribe(eInputEvents::KEYBOARD, InputTriggered);
 
         m_InitiateMouseCapture();
+
+        // Create the chains for the environment
+        // HACK: THIS SHOULD ALL BE ABSTRACTED LATER, ITS A MESS
+        std::string chainMesh = "sphere.ply";
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
+        ModelComponent model = ModelComponent();
+        model.pMeshes.push_back(pVAOManager->LoadModelIntoVAO(chainMesh, false, true, true));
+        model.doNotLight = false;
+        model.isActive = true;
+        model.isWireframe = false;
+        model.material = "matground";
+        model.useColorTexture = true;
+        model.useDefaultColor = false;
+        Entity chainid = GameplayUtils::CreateSoftBodyChain(5, 2.0f, 1, 0.2f, CHAIN_POSITION, model);
+        m_chains.push_back(chainid);
 	}
 
 	void PlayerControllerSystem::Start(Scene* pScene)
@@ -101,11 +119,13 @@ namespace MyEngine
                 pMovement->velocity.y = PLAYER_JUMP_SPEED;
             }
 
-            // HACK: Pin one particle from the cube
+            // HACK Hold first chain particle up
+            for (Entity chainid : m_chains)
+            {
+                SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(chainid);
 
-            /*SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(2);
-            SoftBodyParticle* pParticle = pSoftBody->vecParticles[0];
-            pParticle->position = pParticle->oldPosition;*/
+                pSoftBody->vecParticles[0]->position = CHAIN_POSITION;
+            }
         }
 	}
 

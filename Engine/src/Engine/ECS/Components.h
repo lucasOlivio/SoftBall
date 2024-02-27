@@ -154,14 +154,13 @@ namespace MyEngine
 
 		glm::vec3 defaultColor;
 
-		bool useSoftBodyVertex; // HACK: Use the softbody copy from VAO instead of original
 		bool useDefaultColor;
 		bool useTransparency;
 		bool isWireframe;
 		bool isDynamic;
 		bool doNotLight;
 		bool useColorTexture;
-		bool isActive;
+		bool isActive = true;
 	};
 
 	struct TilingComponent
@@ -282,19 +281,19 @@ namespace MyEngine
 
 		glm::quat orientation;
 
-		std::vector<SoftBodyParticle*> vecWireframeParticles; // Keep the particles in their origin
-		std::vector<SoftBodyParticle*> vecParticles;
+		std::vector<SoftBodyParticle*> vecParticles{};
+		std::vector<SoftBodyParticle*> vecWireframeParticles{}; // Keep the particles in their origin
 
-		std::vector<SoftBodySpring*> vecSprings;
-		std::vector<SoftBodySpring*> vecWireframeSprings;
+		std::vector<SoftBodySpring*> vecSprings{};
+		std::vector<SoftBodySpring*> vecWireframeSprings{};
 
-		float springStrength;
-		float wireframeStrength;
-		int iterations;
+		float springStrength = 1.0f;
+		float wireframeStrength = 1.0f;
+		int iterations = 1;
 
 		// Should the wireframe be controlled by the transform or the particles?
-		bool isWireframe;
-		bool isInternalSprings;
+		bool isWireframe = false;
+		bool isInternalSprings = false;
 	};
 
 	// TODO: Player Gameplay would be better separated from engine, using scripts instead of components

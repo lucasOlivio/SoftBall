@@ -136,8 +136,6 @@ namespace MyEngine
             pParticleFront->oldPosition = pParticleFront->position;
             pParticleFront->worldPosition = pParticleFront->position;
 
-            unsigned int halfIndices = static_cast<int>(pMesh->numberOfIndices / 2);
-            uint32_t seed = static_cast<uint32_t>(entityId);
             // Create the particles and constraints based on original location from the mesh
             for (unsigned int i = 0; i < pMesh->numberOfIndices; i += 3)
             {

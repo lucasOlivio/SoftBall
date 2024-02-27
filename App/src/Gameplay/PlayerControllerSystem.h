@@ -33,5 +33,8 @@ namespace MyEngine
 		void m_InitiateMouseCapture();
 
 		void m_StopMouseCapture();
+
+		// HACK: Set chains ids to hold first particle up
+		std::vector<Entity> m_chains;
 	};
 }

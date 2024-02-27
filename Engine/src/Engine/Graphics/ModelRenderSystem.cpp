@@ -52,8 +52,20 @@ namespace MyEngine
             sMesh* pMesh = nullptr;
             if (pSoftBody)
             {
-                std::string meshCopy = pSoftBody->meshName + std::to_string(entityId);
-                pMesh = pVAOManager->FindMeshByModelName(meshCopy);
+                if (pSoftBody->meshName == pModel->pMeshes[0]->name)
+                {
+                    std::string meshCopy = pSoftBody->meshName + std::to_string(entityId);
+                    pMesh = pVAOManager->FindMeshByModelName(meshCopy);
+                }
+                else
+                {
+                    // HACK: When psoft model different is because is just used for the transform
+                    matTransform = glm::mat4(1.0);
+                    TransformUtils::GetTransform(pSoftBody->position,
+                                                 pSoftBody->orientation,
+                                                 pTransform->worldScale,
+                                                 matTransform);
+                }
             }
 
             if (!pMesh)

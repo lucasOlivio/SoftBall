@@ -23,7 +23,7 @@ namespace MyEngine
     void SoftBodyResponseSystem::Update(Scene* pScene, float deltaTime)
     {
         const std::set<sCollisionParticleData>& currFrameColls = CollisionsUtils::CurrentFrameParticleCollisions();
-        // Draw a wireframe blue sphere at the contact points
+        
         for (const sCollisionParticleData& coll : currFrameColls)
         {
             glm::vec3 collNormal = coll.collisionNormalB;
@@ -45,7 +45,7 @@ namespace MyEngine
                 float displacement = glm::length(particlePosition - pTransformA->position);
                 float penetrationDepth = displacement - radius;
 
-                glm::vec3 correction = collNormal * penetrationDepth * 20.0f;// HACK: Why just adjusting the penetration is not enough?
+                glm::vec3 correction = collNormal * penetrationDepth;
 
                 // Move the particle outside the sphere along the collision normal
                 particlePosition += correction;

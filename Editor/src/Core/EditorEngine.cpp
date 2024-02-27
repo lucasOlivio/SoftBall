@@ -71,7 +71,6 @@ namespace MyEngine
 		pStates->mapStateSystems[eGameStates::RUNNING] = {
 			// Gameplay
 			"PlayerControllerSystem",
-			"SteeringBehaviorSystem",
 			// Graphics
 			"AnimationPlayerSystem",
 			// Physics
