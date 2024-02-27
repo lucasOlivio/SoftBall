@@ -18,11 +18,13 @@
 #include "Engine/Utils/GameplayUtils.h"
 
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
+#include "Engine/Graphics/Renderer/RendererManagerLocator.h"
+#include "Engine/Graphics/VAO/VAOManagerLocator.h"
 
 namespace MyEngine
 {
     const float PLAYER_JUMP_SPEED = 20.0f;
-    const glm::vec3 CHAIN_POSITION = glm::vec3(5000.0f, 13.0f, 4980.0f);
+    const glm::vec3 CHAIN_POSITION = glm::vec3(5000.0f, 10.0f, 4980.0f);
 
 	void PlayerControllerSystem::Init()
 	{
@@ -35,17 +37,7 @@ namespace MyEngine
 
         // Create the chains for the environment
         // HACK: THIS SHOULD ALL BE ABSTRACTED LATER, ITS A MESS
-        std::string chainMesh = "sphere.ply";
-        iVAOManager* pVAOManager = VAOManagerLocator::Get();
-        ModelComponent model = ModelComponent();
-        model.pMeshes.push_back(pVAOManager->LoadModelIntoVAO(chainMesh, false, true, true));
-        model.doNotLight = false;
-        model.isActive = true;
-        model.isWireframe = false;
-        model.material = "matground";
-        model.useColorTexture = true;
-        model.useDefaultColor = false;
-        Entity chainid = GameplayUtils::CreateSoftBodyChain(5, 2.0f, 1, 0.2f, CHAIN_POSITION, model);
+        Entity chainid = GameplayUtils::CreateSoftBodyChain(10, 1.0f, 15, 1.0f, CHAIN_POSITION);
         m_chains.push_back(chainid);
 	}
 
@@ -131,6 +123,44 @@ namespace MyEngine
 
 	void PlayerControllerSystem::Render(Scene* pScene)
 	{
+        // HACK: Just to render something for the chain nodes, Create a chain system maybe?
+        iRendererManager* pRendererManager = RendererManagerLocator::Get();
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
+
+        std::string chainMesh = "sphere.ply";
+        std::string chainmaterial = "matground";
+        float scale = 0.5f;
+        sMesh* pMesh = pVAOManager->LoadModelIntoVAO(chainMesh, false);
+
+        for (Entity chainId : m_chains)
+        {
+            SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(chainId);
+            for (uint i = 0; i < pSoftBody->vecParticles.size() - 3; i++)
+            {
+                // Calculate position based on the middle of the top and down particles holding this node
+                SoftBodyParticle* pParticleChainTop = pSoftBody->vecParticles[i];
+                SoftBodyParticle* pParticleChainDown = pSoftBody->vecParticles[i + 1];
+                const glm::vec3& top = pParticleChainTop->position;
+                const glm::vec3& down = pParticleChainDown->position;
+                glm::vec3 positionNode = top;
+                positionNode.y = (positionNode.y + down.y) / 2.0f;
+
+                glm::mat4 matTransform = glm::mat4(1.0);
+                TransformUtils::GetTransform(positionNode,
+                                              glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+                                              scale,
+                                              matTransform);
+
+                sRenderModelInfo renderInfo = sRenderModelInfo();
+                renderInfo.materialName = chainmaterial;
+                renderInfo.matModel = matTransform;
+                renderInfo.VAO_ID = pMesh->VAO_ID;
+                renderInfo.numberOfIndices = pMesh->numberOfIndices;
+                renderInfo.useColorTexture = true;
+
+                pRendererManager->AddToRender(0, renderInfo);
+            }
+        }
 	}
 
 	void PlayerControllerSystem::End(Scene* pScene)
@@ -158,26 +188,6 @@ namespace MyEngine
 
             WindowCloseEvent collEvent = WindowCloseEvent();
             pEventBus->Publish(collEvent);
-            break;
-        }
-        case eKeyCodes::SPACE:
-        {
-            if (event.keyData.action != eInputActions::KEY_PRESS)
-            {
-                return;
-            }
-
-            GameStateComponent* pState = CoreLocator::GetGameState();
-
-            if(pState->currState == eGameStates::RUNNING)
-            {
-                pState->currState = eGameStates::STOPPED;
-            }
-            else
-            {
-                pState->currState = eGameStates::RUNNING;
-            }
-
             break;
         }
         default:

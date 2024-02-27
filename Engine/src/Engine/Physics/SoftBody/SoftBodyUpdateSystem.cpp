@@ -9,7 +9,7 @@
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
 
 #include "Engine/Utils/TransformUtils.h"
-#include "Engine/Utils/Math.h"
+#include "Engine/Utils/SoftBodyUtils.h"
 
 namespace MyEngine
 {
@@ -47,7 +47,7 @@ namespace MyEngine
             for (size_t i = 0; i < vecSize; i++)
             {
                 SoftBodyParticle* pParticle = pSoftBody->vecParticles[i];
-                ApplyVerlet(pParticle->position, pParticle->oldPosition,
+                SoftBodyUtils::ApplyVerlet(pParticle->position, pParticle->oldPosition,
                             pMovement->acceleration, deltaTime);
 
                 // Update vertex positions, normals and transform based on particles

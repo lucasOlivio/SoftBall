@@ -25,8 +25,5 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 		virtual void Shutdown();
-
-	private:
-		void m_ClearSoftBody(SoftBodyComponent* pSoftBody);
 	};
 }

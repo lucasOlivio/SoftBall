@@ -135,42 +135,4 @@ namespace MyEngine
             value.z = 0.0f;
         }
     }
-
-    void UpdateSpringConstraint(glm::vec3& positionA, glm::vec3& positionB,
-                                const float& restLength, const float& springStregth,
-                                int iterations, bool moveB)
-    {
-        for (int i = 0; i < iterations; i++)
-        {
-            glm::vec3 delta = positionB - positionA;
-            float deltalength = glm::length(delta);
-            if (deltalength <= MIN_FLOAT)
-            {
-                return;
-            }
-
-            float diffA = (deltalength - restLength);
-            float diff = diffA / deltalength;
-
-            glm::vec3 deltaPos = delta * 0.5f * diff * springStregth;
-
-            positionA += deltaPos;
-
-            if (moveB)
-            {
-                positionB -= deltaPos;
-            }
-        }
-    }
-
-    void ApplyVerlet(glm::vec3& position, glm::vec3& oldPosition, 
-                     const glm::vec3& acceleration, float deltaTime)
-    {
-        glm::vec3 currentPos = position;
-        glm::vec3 oldPos = oldPosition;
-
-        position += (currentPos - oldPos) + (acceleration * (float)(deltaTime * deltaTime));
-
-        oldPosition = currentPos;
-    }
 }

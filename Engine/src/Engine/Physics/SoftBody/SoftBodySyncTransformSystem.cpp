@@ -7,6 +7,7 @@
 
 #include "Engine/Utils/Math.h"
 #include "Engine/Utils/TransformUtils.h"
+#include "Engine/Utils/SoftBodyUtils.h"
 
 namespace MyEngine
 {
@@ -83,7 +84,7 @@ namespace MyEngine
             {
                 if (!pSoftBody->isInternalSprings)
                 {
-                    UpdateSpringConstraint(pSoftBody->position, pTransform->position,
+                    SoftBodyUtils::UpdateSpringConstraint(pSoftBody->position, pTransform->position,
                                             0.0f, 1.0f, 5, true);
                 }
 

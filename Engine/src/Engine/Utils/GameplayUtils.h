@@ -26,7 +26,6 @@ namespace MyEngine
 		// NOTE: The node mesh will be created initially with 0 rotation and in the middle of each particle.
 		static Entity CreateSoftBodyChain(uint numOfNodes, float nodeSpacing,
 										  int iterations, float springStrength,
-										  const glm::vec3& position, 
-										  const ModelComponent& modelInfo); // HACK: Just temp component to send all the needed parameters to create the node
+										  const glm::vec3& position);
 	};
 }
