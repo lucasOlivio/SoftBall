@@ -182,6 +182,7 @@ namespace MyEngine
 
 		float distToCamera = 0.0f;
 
+		bool isDoubleSideFace = false;
 		bool isWireFrame = false;
 		bool doNotLight = false;
 		bool useDefaultColor = false;

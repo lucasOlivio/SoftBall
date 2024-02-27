@@ -85,6 +85,7 @@ namespace MyEngine
             renderInfo.VAO_ID = pMesh->VAO_ID;
             renderInfo.numberOfIndices = pMesh->numberOfIndices;
             // This all should come from material
+            renderInfo.isDoubleSideFace = pModel->isDoubleSideFace;
             renderInfo.isWireFrame = pModel->isWireframe;
             renderInfo.doNotLight = pModel->doNotLight;
             renderInfo.useDefaultColor = pModel->useDefaultColor;

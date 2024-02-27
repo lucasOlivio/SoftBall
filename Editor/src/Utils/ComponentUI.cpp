@@ -586,6 +586,8 @@ namespace MyEngine
 
         ImGui::Checkbox("Is Active", &pModel->isActive);
 
+        ImGui::Checkbox("Is double side face", &pModel->isDoubleSideFace);
+
         // FBOIDs
         ImGui::Text("FBO IDs:");
         std::set<uint> fboIdsCopy = pModel->FBOIDs;

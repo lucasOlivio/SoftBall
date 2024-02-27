@@ -73,7 +73,7 @@ namespace MyEngine
 			// Debug
 			/*"DrawGridSystem",
 			"DrawCollisionSystem",*/
-			,"DrawSoftBodyParticlesSystem"
+			//,"DrawSoftBodyParticlesSystem"
 		};
 
 		pStates->mapStateSystems[eGameStates::STOPPED] = {

@@ -27,6 +27,8 @@ namespace MyEngine
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
             MovementComponent* pMovement = pScene->Get<MovementComponent>(entityId);
 
+            SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
+
             glm::vec3 newVelocity = pMovement->velocity + (pMovement->acceleration * deltaTime);
             glm::vec3 dragForce = newVelocity * -(pMovement->drag * deltaTime);
             pMovement->velocity = newVelocity + dragForce;

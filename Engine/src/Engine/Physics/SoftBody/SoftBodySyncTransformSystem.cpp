@@ -58,7 +58,6 @@ namespace MyEngine
                 for (size_t i = 0; i < vecSize - 2; i++)
                 {
                     SoftBodyParticle* pParticle = pSoftBody->vecParticles[i];
-                    SoftBodyParticle* pParticleWireframe = pSoftBody->vecWireframeParticles[i];
 
                     // Calculate weighted sum of particle positions
                     float distanceSquared = glm::length(pParticle->position - pTransform->position);

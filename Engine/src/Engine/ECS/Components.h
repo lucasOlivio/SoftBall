@@ -158,6 +158,7 @@ namespace MyEngine
 		bool useTransparency;
 		bool isWireframe;
 		bool isDynamic;
+		bool isDoubleSideFace = false; // When true disable face culling
 		bool doNotLight;
 		bool useColorTexture;
 		bool isActive = true;

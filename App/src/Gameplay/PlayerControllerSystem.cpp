@@ -25,6 +25,8 @@ namespace MyEngine
 {
     const float PLAYER_JUMP_SPEED = 20.0f;
     const glm::vec3 CHAIN_POSITION = glm::vec3(5000.0f, 10.0f, 4980.0f);
+    glm::vec3 clothPos1 = glm::vec3(0.0f);
+    glm::vec3 clothPos2 = glm::vec3(0.0f);
 
 	void PlayerControllerSystem::Init()
 	{
@@ -47,6 +49,15 @@ namespace MyEngine
 
 	void PlayerControllerSystem::Update(Scene* pScene, float deltaTime)
 	{
+        if (clothPos1 == glm::vec3(0.0f))
+        {
+            // HACK: Get initial cloth particle position
+            Entity clothId = 11;
+            SoftBodyComponent* pSoftBodyCloth = pScene->Get<SoftBodyComponent>(clothId);
+            clothPos1 = pSoftBodyCloth->vecParticles[0]->position;
+            clothPos2 = pSoftBodyCloth->vecParticles[100]->position;
+        }
+
         KeyInputComponent* pKey = CoreLocator::GetKeyInput();
         for (Entity playerId : SceneView<PlayerComponent, TransformComponent, MovementComponent>(*pScene))
         {
@@ -118,6 +129,12 @@ namespace MyEngine
 
                 pSoftBody->vecParticles[0]->position = CHAIN_POSITION;
             }
+
+            // HACK: Hold cloth suspended
+            Entity clothId = 11;
+            SoftBodyComponent* pSoftBodyCloth = pScene->Get<SoftBodyComponent>(clothId);
+            pSoftBodyCloth->vecParticles[0]->position = clothPos1;
+            pSoftBodyCloth->vecParticles[100]->position = clothPos2;
         }
 	}
 

@@ -57,7 +57,7 @@ namespace MyEngine
                     glm::vec3 localPosition = TransformUtils::WorldToLocalPoint(pParticle->position,
                                                                                 pTransform->worldPosition, 
                                                                                 pTransform->worldOrientation, 
-                                                                                pTransform->worldScale);
+                                                                                pTransform->scale);
                     vertex.x = localPosition.x;
                     vertex.y = localPosition.y;
                     vertex.z = localPosition.z;

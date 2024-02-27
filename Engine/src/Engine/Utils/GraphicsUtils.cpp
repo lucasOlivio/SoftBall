@@ -24,6 +24,11 @@ namespace MyEngine
 		pShader->SetUniformFloat("bUseDebugColour", renderInfo.useDebugColor);
 		pShader->SetUniformVec4("debugColourRGBA", renderInfo.debugColor);
 
+		if (renderInfo.isDoubleSideFace)
+		{
+			glDisable(GL_CULL_FACE);
+		}
+
 		// Translates the matrix for every tile
 		glm::mat4 matModel = renderInfo.matModel;
 		for (int x = 0; x < renderInfo.tileAxis[0]; x++)
@@ -55,6 +60,11 @@ namespace MyEngine
 					glBindVertexArray(0); 			  // disable VAO (and everything else)
 				}
 			}
+		}
+
+		if (renderInfo.isDoubleSideFace)
+		{
+			glEnable(GL_CULL_FACE);
 		}
 	}
 }
