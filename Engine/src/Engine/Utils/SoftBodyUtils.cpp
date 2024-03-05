@@ -182,6 +182,7 @@ namespace MyEngine
             pSoftBody->vecSprings.push_back(springCA);
         }
     }
+
     void SoftBodyUtils::ClearSoftBody(SoftBodyComponent* pSoftBody)
     {
         for (SoftBodySpring* pSpring : pSoftBody->vecSprings)

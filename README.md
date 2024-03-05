@@ -8,6 +8,10 @@ Project for Physics 2 class. On this project we should create a 3D game to demon
 
 - Visual studio 2022
 
+## How to play
+
+- W/A/S/D to move
+
 ## How to run
 
 1. Clone the repository.

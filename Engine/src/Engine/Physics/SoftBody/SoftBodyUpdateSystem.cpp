@@ -97,7 +97,7 @@ namespace MyEngine
             pMesh->pVertices[vertIndex].nx = 0.0f;
             pMesh->pVertices[vertIndex].ny = 0.0f;
             pMesh->pVertices[vertIndex].nz = 0.0f;
-            pMesh->pVertices[vertIndex].nw = 0.0f;
+            pMesh->pVertices[vertIndex].nw = 1.0f;
         }
 
         for (unsigned int i = 0; i < pMesh->numberOfIndices; i += 3)
